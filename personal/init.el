@@ -14,8 +14,9 @@
   '(paredit
     aggressive-indent
     cider
-    flycheck-clojure
+    flycheck
     flycheck-pos-tip
+    flycheck-joker
     clj-refactor
     clojure-mode-extra-font-locking
     magit-gitflow
@@ -101,10 +102,10 @@
 (add-hook 'after-init-hook #'sml/setup)
 
 ;; aggressive indent
-(require 'aggressive-indent)
-(add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
-(add-hook 'css-mode #'aggressive-indent-mode)
-(add-hook 'clojure-mode-hook #'aggressive-indent-mode)
+;; (require 'aggressive-indent)
+;; (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
+;; (add-hook 'css-mode #'aggressive-indent-mode)
+;; (add-hook 'clojure-mode-hook #'aggressive-indent-mode)
 
 ;; Syntax highlighting
 (require 'highlight-symbol)
@@ -117,6 +118,9 @@
 (require 'neotree)
 (setq neo-theme 'icons)
 (global-set-key [f8] 'neotree-toggle)
+
+(require 'smartparens)
+(smartparens-global-mode)
 
 (require 'paredit)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
@@ -145,9 +149,11 @@
 ;; add shot cut for cider-repl-clear-buffer
 (define-key cider-repl-mode-map (kbd "C-c SPC") 'cider-repl-clear-buffer)
 
-;; flycheck-clojure
-(eval-after-load 'flycheck '(flycheck-clojure-setup))
+(require 'flycheck)
+(require 'flycheck-pos-tip)
+(require 'flycheck-joker)
 (add-hook 'after-init-hook #'global-flycheck-mode)
+(add-hook 'flycheck-mode-hook #'flycheck-pos-tip-mode)
 
 ;; flycheck-pos-tip
 (eval-after-load 'flycheck

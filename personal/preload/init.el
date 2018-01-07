@@ -1,5 +1,10 @@
 ;;
 
+;;
+(require 'package)
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.org/packages/") t)
+
 ;; prefer utf-8
 (set-language-environment "UTF-8")
 (prefer-coding-system 'utf-8)
