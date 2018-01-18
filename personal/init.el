@@ -4,6 +4,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; (cd "~/workspace")
 
 ;; Add a directory to our load path so that when you `load` things
 ;; below, Emacs knows where to look for the corresponding file.
@@ -32,6 +33,9 @@
 
 ;; no need for ~ files when editing
 (setq create-lockfiles nil)
+
+;; disable flyspell
+(setq prelude-flyspell nil)
 
 ;; disable auto save of prelude
 (setq prelude-auto-save nil)
@@ -81,7 +85,7 @@
   (interactive)
   (comment-or-uncomment-region (line-beginning-position) (line-end-position)))
 (global-set-key (kbd "C-;") 'toggle-comment-on-line)
-
+(define-key flyspell-mode-map (kbd "C-;") nil)
 
 ;; enable git flow
 (require 'magit-gitflow)
@@ -110,6 +114,7 @@
 ;; Syntax highlighting
 (require 'highlight-symbol)
 (global-set-key (kbd "C-.") 'highlight-symbol-at-point)
+(define-key flyspell-mode-map (kbd "C-.") nil)
 
 ;; load icons
 (require 'all-the-icons)
