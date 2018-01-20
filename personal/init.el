@@ -21,7 +21,7 @@
     clj-refactor
     clojure-mode-extra-font-locking
     magit-gitflow
-    company-quickhelp
+    ;; company-quickhelp
     darkokai-theme
     highlight-symbol
     all-the-icons
@@ -92,8 +92,8 @@
 (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
 
 ;; enable popup doc on pause in company menu
-(require 'company-quickhelp)
-(company-quickhelp-mode 1)
+;; (require 'company-quickhelp)
+;; (company-quickhelp-mode 1)
 
 ;; override smart mode line configuration
 (require 'smart-mode-line)
