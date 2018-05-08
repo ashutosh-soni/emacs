@@ -24,3 +24,6 @@ tramp
 .emacs.desktop.lock
 network-security.data
 /server/
+prelude-cheatsheet.el
+prelude-cheatsheet.aux
+prelude-cheatsheet.log

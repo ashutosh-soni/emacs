@@ -1,6 +1,6 @@
 ;;; prelude-core.el --- Emacs Prelude: Core Prelude functions.
 ;;
-;; Copyright © 2011-2017 Bozhidar Batsov
+;; Copyright © 2011-2018 Bozhidar Batsov
 ;;
 ;; Author: Bozhidar Batsov <bozhidar@batsov.com>
 ;; URL: https://github.com/bbatsov/prelude
@@ -62,19 +62,6 @@ PROMPT sets the `read-string prompt."
 (prelude-install-search-engine "youtube"    "http://www.youtube.com/results?search_query=" "Search YouTube: ")
 (prelude-install-search-engine "github"     "https://github.com/search?q="                 "Search GitHub: ")
 (prelude-install-search-engine "duckduckgo" "https://duckduckgo.com/?t=lm&q="              "Search DuckDuckGo: ")
-
-(defun prelude-todo-ov-evaporate (_ov _after _beg _end &optional _length)
-  (let ((inhibit-modification-hooks t))
-    (if _after (ov-reset _ov))))
-
-(defun prelude-annotate-todo ()
-  "Put fringe marker on TODO: lines in the current buffer."
-  (interactive)
-  (ov-set (format "[[:space:]]*%s+[[:space:]]*TODO:" comment-start)
-          'before-string
-          (propertize (format "A")
-                      'display '(left-fringe right-triangle))
-          'modification-hooks '(prelude-todo-ov-evaporate)))
 
 (defun prelude-recompile-init ()
   "Byte-compile all your dotfiles again."
@@ -156,7 +143,7 @@ With a prefix ARG updates all installed packages."
                             (epl-installed-packages))))
     (message "Update finished. Restart Emacs to complete the process.")))
 
-;;; Emacs in OSX already has fullscreen support
+;;; Emacs in macOS already has fullscreen support
 ;;; Emacs has a similar built-in command in 24.4
 (defun prelude-fullscreen ()
   "Make Emacs window fullscreen.
