@@ -12,7 +12,9 @@
 
 ;; install my packages
 (defvar my-packages
-  '(paredit
+  '(org
+    org-bullets
+    paredit
     aggressive-indent
     cider
     flycheck
@@ -167,3 +169,16 @@
 (add-hook 'cider-mode-hook
           (lambda ()
             (setq next-error-function #'flycheck-next-error-function)))
+
+;;;; org mode config
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (clojure . t)))
+;; show syntax highlighting per language native mode in *.org
+(setq org-src-fontify-natively t)
+;; for languages with significant whitesapce like Python:
+(setq org-src-preserve-indentation t)
+;; org-bullets mode
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
