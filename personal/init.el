@@ -4,8 +4,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; (cd "~/workspace")
-
 ;; Add a directory to our load path so that when you `load` things
 ;; below, Emacs knows where to look for the corresponding file.
 (add-to-list 'load-path (expand-file-name "modules" prelude-personal-dir))
@@ -166,9 +164,13 @@
 (eval-after-load 'flycheck
   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
+;; cider mode use flycheck
 (add-hook 'cider-mode-hook
           (lambda ()
             (setq next-error-function #'flycheck-next-error-function)))
+
+;; cider mode enable history file
+(setq cider-repl-history-file "~/.cider-repl-history")
 
 ;;;; org mode config
 (org-babel-do-load-languages
