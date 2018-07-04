@@ -33,8 +33,7 @@
 ;;; Code:
 
 (require 'thingatpt)
-(require 'dash)
-(require 'ov)
+(require 'cl-lib)
 
 (defun prelude-buffer-mode (buffer-or-name)
   "Retrieve the `major-mode' of BUFFER-OR-NAME."
@@ -95,8 +94,7 @@ PROMPT sets the `read-string prompt."
     "Press <f11> to toggle fullscreen mode."
     "Press <f12> to toggle the menu bar."
     "Explore the Tools->Prelude menu to find out about some of Prelude extensions to Emacs."
-    "Access the official Emacs manual by pressing <C-h r>."
-    "Visit the EmacsWiki at http://emacswiki.org to find out even more about Emacs."))
+    "Access the official Emacs manual by pressing <C-h r>."))
 
 (defun prelude-tip-of-the-day ()
   "Display a random entry from `prelude-tips'."
@@ -139,8 +137,8 @@ With a prefix ARG updates all installed packages."
   (when (y-or-n-p "Do you want to update Prelude's packages? ")
     (if arg
         (epl-upgrade)
-      (epl-upgrade (-filter (lambda (p) (memq (epl-package-name p) prelude-packages))
-                            (epl-installed-packages))))
+      (epl-upgrade (cl-remove-if-not (lambda (p) (memq (epl-package-name p) prelude-packages))
+                                     (epl-installed-packages))))
     (message "Update finished. Restart Emacs to complete the process.")))
 
 ;;; Emacs in macOS already has fullscreen support
