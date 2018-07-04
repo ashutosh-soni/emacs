@@ -21,6 +21,7 @@
     clj-refactor
     clojure-mode-extra-font-locking
     magit-gitflow
+    markdown-mode
     ;; company-quickhelp
     darkokai-theme
     highlight-symbol
