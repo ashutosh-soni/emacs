@@ -26,7 +26,9 @@
     darkokai-theme
     highlight-symbol
     all-the-icons
-    neotree))
+    neotree
+    ;; rich-minority
+    delight))
 
 (dolist (p my-packages)
   (when (not (package-installed-p p))
@@ -95,16 +97,6 @@
 ;; enable popup doc on pause in company menu
 ;; (require 'company-quickhelp)
 ;; (company-quickhelp-mode 1)
-
-;; override smart mode line configuration
-(require 'smart-mode-line)
-(setq sml/no-confirm-load-theme t)
-(setq sml/theme 'dark)
-(setq sml/shorten-directory t)
-(setq sml/shorten-modes t)
-(setq sml/name-width 40)
-(setq sml/mode-width 'full)
-(add-hook 'after-init-hook #'sml/setup)
 
 ;; aggressive indent
 ;; (require 'aggressive-indent)
@@ -185,3 +177,48 @@
 ;; org-bullets mode
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+
+;; override smart mode line configuration
+(require 'smart-mode-line)
+(setq sml/no-confirm-load-theme t)
+(setq sml/theme 'dark)
+(setq sml/shorten-directory t)
+(setq sml/shorten-modes t)
+(setq sml/name-width 40)
+(setq sml/mode-width 'full)
+(add-hook 'after-init-hook #'sml/setup)
+
+;; hide minor modes
+;; (require 'rich-minority)
+;; (setq rm-blacklist ".*") ;; just hide all
+;; (setq rm-whitelist nil)  ;; none to show
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (setq rm-blacklist                                        ;;
+;;       (format "^ \\(%s\\)$"                               ;;
+;;               (mapconcat #'identity                       ;;
+;;                          '("Fly.*" "Projectile.*" "PgLn") ;;
+;;                          "\\|")))                         ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'delight)
+(delight '((guru-mode "" t)
+           (paredit-mode "" t)
+           (flycheck-mode "" t)
+           (company-mode "" t)
+           (helm-mode "" t)
+           (editorconfig-mode "" t)
+           (whitespace-mode "" t)
+           (projectile-mode "" t)
+           (smartparens-mode "" t)
+           (prelude-mode "" t)
+           (which-key-mode "" t)
+           (beacon-mode "" t)
+           (subword-mode "" t)
+           (clj-refactor-mode "" t)
+           (cider-mode "" t)
+           (magit-gitflow-mode "" t)))
+
+(require 'diminish)
+(eval-after-load "guru-mode" '(diminish 'guru-mode))
