@@ -4,21 +4,31 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; set package archive list
+(setq package-archives
+      '(("gnu" . "http://elpa.gnu.org/packages/")
+        ("melpa" . "http://melpa.org/packages/")
+        ("org" . "http://orgmode.org/elpa/")))
+
 ;; Add a directory to our load path so that when you `load` things
 ;; below, Emacs knows where to look for the corresponding file.
 (add-to-list 'load-path (expand-file-name "modules" prelude-personal-dir))
 
 ;; install my packages
 (defvar my-packages
-  '(org
+  '(org-plus-contrib
     org-bullets
+    org-tree-slide
+    ;; moom
+    ;; org-jira
+
     paredit
-    aggressive-indent
+    ;; aggressive-indent
     cider
     flycheck
     flycheck-pos-tip
     flycheck-joker
-    clj-refactor
+    ;; clj-refactor
     clojure-mode-extra-font-locking
     magit-gitflow
     markdown-mode
@@ -47,7 +57,10 @@
 (setq prelude-clean-whitespace-on-save nil)
 
 ;; Show line numbers
-(global-linum-mode)
+(if (version<= "26.0.50" emacs-version)
+    (global-display-line-numbers-mode)
+  (global-linum-mode))
+
 
 ;; Don't show native OS scroll bars for buffers because they're redundant
 (when (fboundp 'scroll-bar-mode)
@@ -59,6 +72,29 @@
 (require 'darkokai-theme)
 (setq darkokai-mode-line-padding 1)
 (load-theme 'darkokai t)
+
+
+(defface org-block-begin-line
+  '((t (:foreground "#008ED1" :background "#333")))
+  "Face used for the line delimiting the begin of source blocks.")
+
+(defface org-block
+  '((t (:foreground "#FFFFEA" :background "#000")))
+  "Face used for the source block background.")
+
+(defface org-block-end-line
+  '((t (:foreground "#008ED1" :background "#333")))
+  "Face used for the line delimiting the end of source blocks.")
+
+(custom-theme-set-faces
+ 'darkokai
+ '(org-block-begin-line
+   ((t (:foreground "#008ED1" :background "#333"))))
+ '(org-block
+   ((t (:foreground "#FFFFEA" :background "#000"))))
+ '(org-block-end-line
+   ((t (:foreground "#008ED1" :background "#333")))))
+
 
 ;; increase font size for better readability
 (set-frame-font "Input-11")
@@ -100,9 +136,9 @@
 
 ;; aggressive indent
 ;; (require 'aggressive-indent)
+;; (add-hook 'clojure-mode-hook #'aggressive-indent-mode)
 ;; (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
 ;; (add-hook 'css-mode #'aggressive-indent-mode)
-;; (add-hook 'clojure-mode-hook #'aggressive-indent-mode)
 
 ;; Syntax highlighting
 (require 'highlight-symbol)
@@ -121,6 +157,7 @@
 (smartparens-global-mode)
 
 (require 'paredit)
+(require 'cider)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 (add-hook 'clojure-mode-hook 'paredit-mode)
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
@@ -128,12 +165,12 @@
 ;; A little more syntax highlighting
 (require 'clojure-mode-extra-font-locking)
 
-(require 'clj-refactor)
-(add-hook 'clojure-mode-hook
-          (lambda ()
-            (clj-refactor-mode 1)
-            ;; insert keybinding setup here
-            (cljr-add-keybindings-with-prefix "C-c C-m")))
+;; (require 'clj-refactor)
+;; (add-hook 'clojure-mode-hook
+;;           (lambda ()
+;;             (clj-refactor-mode 1)
+;;             ;; insert keybinding setup here
+;;             (cljr-add-keybindings-with-prefix "C-c C-m")))
 
 ;; enable pretty lambda (replace fn keyword with greek letter)
 (require 'clojure-pretty-lambda)
@@ -162,18 +199,54 @@
           (lambda ()
             (setq next-error-function #'flycheck-next-error-function)))
 
+;; cider repl mode hide line numbers
+(add-hook 'cider-repl-mode
+          (lambda ()
+            (linum-mode -1)
+            (display-line-numbers-mode -1)))
+
 ;; cider mode enable history file
 (setq cider-repl-history-file "~/.cider-repl-history")
 
 ;;;; org mode config
+(require 'org)
+(require 'cider)
+(require 'org-tree-slide)
+;; (require 'moom)
+;; (require 'org-jira)
+
+;; (require 'ob-clojure-literate)
+;; (add-hook 'org-mode-hook #'ob-clojure-literate-mode)
+
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((emacs-lisp . t)
-   (clojure . t)))
-;; show syntax highlighting per language native mode in *.org
+   (clojure . t)
+   (shell . t)))
+;; specify clojure back-end to use in org-mode
+(setq org-babel-clojure-backend 'cider)
+;; useful keybindings when using clojure in org-mode
+(org-defkey org-mode-map "\C-x\C-e" 'cider-eval-last-sexp)
+(org-defkey org-mode-map "\C-c\C-d" 'cider-doc)
+(setq org-babel-clojure-sync-nrepl-timeout nil)
+;; turn on visual-line-mode for org-mode
+(add-hook 'org-mode-hook
+          (lambda ()
+            (linum-mode -1)
+            (display-line-numbers-mode -1)
+            (whitespace-mode -1)
+            (turn-on-visual-line-mode)))
+(setq org-src-tab-acts-natively t)
+(setq org-confirm-babel-evaluate nil)
+(setq org-edit-src-content-indentation 0)
 (setq org-src-fontify-natively t)
-;; for languages with significant whitesapce like Python:
-(setq org-src-preserve-indentation t)
+(setq org-src-preserve-indentation nil)
+(setq org-pretty-entities t)
+(set-face-attribute 'org-meta-line nil
+                    :height 0.8
+                    :slant 'normal
+                    ;; :foreground "black"
+                    :weight 'light)
 ;; org-bullets mode
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
@@ -216,9 +289,10 @@
            (which-key-mode "" t)
            (beacon-mode "" t)
            (subword-mode "" t)
-           (clj-refactor-mode "" t)
+           ;; (clj-refactor-mode "" t)
            (cider-mode "" t)
-           (magit-gitflow-mode "" t)))
+           (magit-gitflow-mode "" t)
+           (abbrev-mode "" t)))
 
 (require 'diminish)
 (eval-after-load "guru-mode" '(diminish 'guru-mode))
