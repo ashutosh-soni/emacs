@@ -37,7 +37,8 @@
     highlight-symbol
     all-the-icons
     neotree
-    ;; rich-minority
+    rich-minority ;; smart-mode-line needs it ??
+    smart-mode-line
     delight))
 
 (dolist (p my-packages)
@@ -292,7 +293,9 @@
            ;; (clj-refactor-mode "" t)
            (cider-mode "" t)
            (magit-gitflow-mode "" t)
-           (abbrev-mode "" t)))
+           (abbrev-mode "" t)
+           (subword-mode "" t)
+           (visual-line-mode "" t)))
 
 (require 'diminish)
 (eval-after-load "guru-mode" '(diminish 'guru-mode))
