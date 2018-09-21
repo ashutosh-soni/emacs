@@ -28,7 +28,7 @@
     flycheck
     flycheck-pos-tip
     flycheck-joker
-    ;; clj-refactor
+    clj-refactor
     clojure-mode-extra-font-locking
     magit-gitflow
     markdown-mode
@@ -166,12 +166,14 @@
 ;; A little more syntax highlighting
 (require 'clojure-mode-extra-font-locking)
 
-;; (require 'clj-refactor)
-;; (add-hook 'clojure-mode-hook
-;;           (lambda ()
-;;             (clj-refactor-mode 1)
-;;             ;; insert keybinding setup here
-;;             (cljr-add-keybindings-with-prefix "C-c C-m")))
+(require 'clj-refactor)
+(add-hook 'clojure-mode-hook
+          (lambda ()
+            (clj-refactor-mode 1)
+            (yas-minor-mode 1) ; for adding require/use/import statements
+            ;; insert keybinding setup here
+            ;; NOTE: this choice leaves cider-macroexpand-1 unbound
+            (cljr-add-keybindings-with-prefix "C-c C-m")))
 
 ;; enable pretty lambda (replace fn keyword with greek letter)
 (require 'clojure-pretty-lambda)
@@ -290,7 +292,7 @@
            (which-key-mode "" t)
            (beacon-mode "" t)
            (subword-mode "" t)
-           ;; (clj-refactor-mode "" t)
+           (clj-refactor-mode "" t)
            (cider-mode "" t)
            (magit-gitflow-mode "" t)
            (abbrev-mode "" t)
