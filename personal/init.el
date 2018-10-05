@@ -39,7 +39,10 @@
     neotree
     rich-minority ;; smart-mode-line needs it ??
     smart-mode-line
-    delight))
+    delight
+
+    ;; counsel
+    counsel))
 
 (dolist (p my-packages)
   (when (not (package-installed-p p))
@@ -310,3 +313,9 @@
   "-o ControlPath=/tmp/ssh-master-%%r@%%h:%%p "
   "-o ControlMaster=auto "
   "-o ControlPersist=yes"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Counsel
+
+(require 'counsel)
+(global-set-key (kbd "C-x 8 RET") 'counsel-unicode-char)
