@@ -2,7 +2,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; set package archive list
 (setq package-archives
@@ -16,7 +16,8 @@
 
 ;; install my packages
 (defvar my-packages
-  '(org-plus-contrib
+  '(;;org-plus-contrib
+    org
     org-bullets
     org-tree-slide
     ;; moom
@@ -217,6 +218,7 @@
 ;;;; org mode config
 (require 'org)
 (require 'cider)
+(require 'ob-js)
 (require 'org-tree-slide)
 ;; (require 'moom)
 ;; (require 'org-jira)
@@ -228,7 +230,10 @@
  'org-babel-load-languages
  '((emacs-lisp . t)
    (clojure . t)
-   (shell . t)))
+   (shell . t)
+   (C . t)
+   (js . t)))
+(add-to-list 'org-babel-tangle-lang-exts '("js" . "js"))
 ;; specify clojure back-end to use in org-mode
 (setq org-babel-clojure-backend 'cider)
 ;; useful keybindings when using clojure in org-mode
@@ -300,7 +305,9 @@
            (magit-gitflow-mode "" t)
            (abbrev-mode "" t)
            (subword-mode "" t)
-           (visual-line-mode "" t)))
+           (visual-line-mode "" t)
+	   (yas-minor-mode "" t)
+           (super-save-mode "" t)))
 
 (require 'diminish)
 (eval-after-load "guru-mode" '(diminish 'guru-mode))
