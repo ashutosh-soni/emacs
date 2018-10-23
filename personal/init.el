@@ -185,7 +185,9 @@
 (add-hook 'cider-repl-mode-hook 'clojure-pretty-lambda-mode)
 
 ;; enable cider repl pprint using fipp
+;; (setq cider-pprint-fn 'puget)
 (setq cider-pprint-fn 'fipp)
+;; (setq cider-pprint-fn 'pprint)
 (setq cider-repl-use-pretty-printing t)
 
 ;; add shot cut for cider-repl-clear-buffer
@@ -306,7 +308,7 @@
            (abbrev-mode "" t)
            (subword-mode "" t)
            (visual-line-mode "" t)
-	   (yas-minor-mode "" t)
+           (yas-minor-mode "" t)
            (super-save-mode "" t)))
 
 (require 'diminish)
@@ -326,3 +328,38 @@
 
 (require 'counsel)
 (global-set-key (kbd "C-x 8 RET") 'counsel-unicode-char)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Tramp speed up by disabling some
+
+(require 'editorconfig)
+(editorconfig-mode -1)
+
+(defadvice projectile-project-root (around ignore-remote first activate)
+  (unless (file-remote-p default-directory) ad-do-it))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; SHA1
+
+(require 'sha1)
+(defun sha1-region (start end)
+  "Computes the SHA1 hash of currently selected region."
+  (interactive "r")
+  (let ((hash (sha1 (buffer-substring start end))))
+    (deactivate-mark)
+    (message "Region sha1 hash: %s, (C-y to insert)," hash)
+    (kill-new hash)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(progn
+  ;; set arrow keys in isearch
+  ;; left/right is backward/forward
+  ;; up/down is history
+  ;; press Return to exit
+  (define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
+  (define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
+  (define-key isearch-mode-map (kbd "<left>") 'isearch-repeat-backward)
+  (define-key isearch-mode-map (kbd "<right>") 'isearch-repeat-forward)
+  (define-key minibuffer-local-isearch-map (kbd "<left>") 'isearch-reverse-exit-minibuffer)
+  (define-key minibuffer-local-isearch-map (kbd "<right>") 'isearch-forward-exit-minibuffer))
+(global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
