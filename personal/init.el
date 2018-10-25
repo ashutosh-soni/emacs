@@ -57,6 +57,8 @@
 
 ;; disable auto save of prelude
 (setq prelude-auto-save nil)
+(super-save-mode -1)
+(setq super-save-remote-files nil)
 
 ;; disable clean whitesapce on save
 (setq prelude-clean-whitespace-on-save nil)
@@ -238,10 +240,10 @@
 (add-to-list 'org-babel-tangle-lang-exts '("js" . "js"))
 ;; specify clojure back-end to use in org-mode
 (setq org-babel-clojure-backend 'cider)
+(setq org-babel-clojure-sync-nrepl-timeout nil)
 ;; useful keybindings when using clojure in org-mode
 (org-defkey org-mode-map "\C-x\C-e" 'cider-eval-last-sexp)
 (org-defkey org-mode-map "\C-c\C-d" 'cider-doc)
-(setq org-babel-clojure-sync-nrepl-timeout nil)
 ;; turn on visual-line-mode for org-mode
 (add-hook 'org-mode-hook
           (lambda ()
@@ -249,6 +251,7 @@
             (display-line-numbers-mode -1)
             (whitespace-mode -1)
             (turn-on-visual-line-mode)))
+(setq org-hide-emphasis-markers t)
 (setq org-src-tab-acts-natively t)
 (setq org-confirm-babel-evaluate nil)
 (setq org-edit-src-content-indentation 0)
@@ -260,6 +263,7 @@
                     :slant 'normal
                     ;; :foreground "black"
                     :weight 'light)
+(setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
 ;; org-bullets mode
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
