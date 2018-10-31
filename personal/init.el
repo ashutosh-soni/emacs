@@ -313,7 +313,8 @@
            (subword-mode "" t)
            (visual-line-mode "" t)
            (yas-minor-mode "" t)
-           (super-save-mode "" t)))
+           (super-save-mode "" t)
+           (hs-minor-mode "" t)))
 
 (require 'diminish)
 (eval-after-load "guru-mode" '(diminish 'guru-mode))
@@ -367,3 +368,15 @@
   (define-key minibuffer-local-isearch-map (kbd "<left>") 'isearch-reverse-exit-minibuffer)
   (define-key minibuffer-local-isearch-map (kbd "<right>") 'isearch-forward-exit-minibuffer))
 (global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; hideshow setup
+(load-library "hideshow")
+(progn
+  (define-key hs-minor-mode-map (kbd "C-t") 'hs-toggle-hiding)
+  (define-key hs-minor-mode-map (kbd "C-S-t") 'hs-hide-all))
+(add-hook 'clojure-mode-hook 'hs-minor-mode)
+(add-hook 'cider-mode-hook 'hs-minor-mode)
+(add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
+(add-hook 'js-mode-hook 'hs-minor-mode)
+(add-hook 'web-mode-hook 'hs-minor-mode)
