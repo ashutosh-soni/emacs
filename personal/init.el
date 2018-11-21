@@ -41,8 +41,7 @@
     rich-minority ;; smart-mode-line needs it ??
     smart-mode-line
     delight
-
-    ;; counsel
+    persistent-scratch
     counsel))
 
 (dolist (p my-packages)
@@ -380,3 +379,9 @@
 (add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
 (add-hook 'js-mode-hook 'hs-minor-mode)
 (add-hook 'web-mode-hook 'hs-minor-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; persistent scratch buffer
+
+(require 'persistent-scratch)
+(persistent-scratch-setup-default)
