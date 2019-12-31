@@ -23,6 +23,10 @@ tramp
 .emacs.desktop
 .emacs.desktop.lock
 network-security.data
+/server/
 prelude-cheatsheet.el
 prelude-cheatsheet.aux
 prelude-cheatsheet.log
+/.mc-lists.el
+/.org-id-locations
+/request
